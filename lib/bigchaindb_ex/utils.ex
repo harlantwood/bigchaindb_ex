@@ -15,15 +15,15 @@ defmodule BigchaindbEx.Utils do
   end
 
   @doc """
-    Returns the quotient and the 
+    Returns the quotient and the
     remainder of a division.
 
     # Example:
-      iex> divmod(126207244316550804821666916, 256) 
+      iex> divmod(126207244316550804821666916, 256)
       {492997048111526581334636, 100}
   """
   @spec divmod(number, number) :: {number, number}
-  def divmod(a, b) 
+  def divmod(a, b)
     when is_integer(a)
     and  is_integer(b)
   do
@@ -31,12 +31,12 @@ defmodule BigchaindbEx.Utils do
   end
 
   @doc """
-    Deeply encodes a map to JSON with all of 
-    it's keys in alphabetical order.
+    Deeply encodes a map to JSON with all of
+    its keys in alphabetical order.
   """
   def encode_map_to_json_sorted_keys(map) when is_map(map) do
-    az_keys = map 
-    |> Map.keys 
+    az_keys = map
+    |> Map.keys
     |> Enum.sort
 
     iodata = [
@@ -57,7 +57,7 @@ defmodule BigchaindbEx.Utils do
       |> Enum.intersperse(","),
       "]"
     ]
-    
+
     IO.iodata_to_binary(iodata)
   end
   def encode_map_to_json_sorted_keys(val), do: Poison.encode!(val)

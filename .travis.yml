@@ -1,0 +1,39 @@
+language: elixir
+
+elixir:
+#  - '1.5'
+  - '1.6'
+
+otp_release:
+#  - '19.0'
+  - '20.2.4'
+
+before_install:
+  #  - kerl list installations
+  #  - sudo add-apt-repository -y ppa:chris-lea/libsodium
+  #  - echo "deb http://ppa.launchpad.net/chris-lea/libsodium/ubuntu trusty main" | sudo tee -a /etc/apt/sources.list
+  #  - echo "deb-src http://ppa.launchpad.net/chris-lea/libsodium/ubuntu trusty main" | sudo tee -a /etc/apt/sources.list
+  #  - sudo apt-get update && sudo apt-get install -y libsodium-dev
+  - echo $PATH
+  - |
+    # install libsodium
+    set -x
+    V=1.0.13  # latest => 1.0.16
+    curl -OL https://download.libsodium.org/libsodium/releases/libsodium-${V}.tar.gz
+    tar -zxf libsodium-${V}.tar.gz
+    cd libsodium-${V}
+    ./configure --prefix=/usr
+    make
+    sudo make install
+    cd ..
+    set +x
+  - |
+    set -x
+    ls -laFG /usr/local/lib
+    set +x
+
+before_script:
+  - make priv/crypto_nifs.so
+  - ls -laFG priv
+  - make
+
